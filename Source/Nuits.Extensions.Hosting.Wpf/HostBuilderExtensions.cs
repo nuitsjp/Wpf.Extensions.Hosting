@@ -9,10 +9,10 @@ public static class HostBuilderExtensions
     public static IHostBuilder ConfigureWpf<TApplication>(this IHostBuilder hostBuilder) 
         where TApplication : Application
     {
-        return hostBuilder.ConfigureWpf<TApplication>((_, _) => { });
+        return hostBuilder.ConfigureWpf<TApplication>((_, _, _) => { });
     }
 
-    public static IHostBuilder ConfigureWpf<TApplication>(this IHostBuilder hostBuilder, Action<TApplication, Window> onLoaded)
+    public static IHostBuilder ConfigureWpf<TApplication>(this IHostBuilder hostBuilder, Action<TApplication, Window, IServiceProvider> onLoaded)
         where TApplication : Application
     {
         Thread.CurrentThread.SetApartmentState(ApartmentState.Unknown);
@@ -32,10 +32,10 @@ public static class HostBuilderExtensions
         where TApplication : Application
         where TWindow : Window
     {
-        return hostBuilder.ConfigureWpf<TApplication, TWindow>((_, _) => { });
+        return hostBuilder.ConfigureWpf<TApplication, TWindow>((_, _, _) => { });
     }
 
-    public static IHostBuilder ConfigureWpf<TApplication, TWindow>(this IHostBuilder hostBuilder, Action<TApplication, TWindow> onLoaded)
+    public static IHostBuilder ConfigureWpf<TApplication, TWindow>(this IHostBuilder hostBuilder, Action<TApplication, TWindow, IServiceProvider> onLoaded)
         where TApplication : Application
         where TWindow : Window
     {
