@@ -48,7 +48,7 @@ public static class HostBuilderExtensions
             services.AddHostedService<WpfHostedService<TApplication, TWindow>>();
             services.AddTransient<ApplicationContainer<TApplication, TWindow>>();
             services.AddTransient(_ => new OnLoadedListener<TApplication, TWindow>(onLoaded));
-            services.AddTransient<TApplication>();
+            services.AddSingleton<TApplication>();
             services.AddTransient<TWindow>();
         });
     }
