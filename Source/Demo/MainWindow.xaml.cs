@@ -21,9 +21,10 @@ namespace Demo
     /// </summary>
     public partial class MainWindow
     {
-        public MainWindow()
+        public MainWindow(MainWindowViewModel mainWindowViewModel)
         {
             InitializeComponent();
+            DataContext = mainWindowViewModel;
         }
     }
 }
