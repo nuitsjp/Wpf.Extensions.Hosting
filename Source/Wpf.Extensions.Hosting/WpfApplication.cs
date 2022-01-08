@@ -19,7 +19,7 @@ namespace Wpf.Extensions.Hosting
     /// <summary>
     /// The web application used to configure the HTTP pipeline, and routes.
     /// </summary>
-    public sealed class WebApplication<TApplication, TWindow> : IHost, IApplicationBuilder, IAsyncDisposable
+    public sealed class WpfApplication<TApplication, TWindow> : IHost, IApplicationBuilder, IAsyncDisposable
         where TApplication : Application
         where TWindow : Window
     {
@@ -27,7 +27,7 @@ namespace Wpf.Extensions.Hosting
 
         private readonly IHost _host;
 
-        internal WebApplication(IHost host)
+        internal WpfApplication(IHost host)
         {
             _host = host;
             ApplicationBuilder = new ApplicationBuilder(host.Services);
@@ -76,34 +76,34 @@ namespace Wpf.Extensions.Hosting
         internal ApplicationBuilder ApplicationBuilder { get; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WebApplication"/> class with preconfigured defaults.
+        /// Initializes a new instance of the <see cref="WpfApplication{TApplication,TWindow}"/> class with preconfigured defaults.
         /// </summary>
         /// <param name="args">Command line arguments</param>
-        /// <returns>The <see cref="WebApplication"/>.</returns>
-        public static WebApplication<TApplication, TWindow> Create(string[]? args = null, Action<TApplication, TWindow, IServiceProvider> onLoaded = null) =>
-            new WebApplicationBuilder<TApplication, TWindow>(new() { Args = args }).Build(onLoaded);
+        /// <returns>The <see cref="WpfApplication{TApplication,TWindow}"/>.</returns>
+        public static WpfApplication<TApplication, TWindow> Create(string[]? args = null, Action<TApplication, TWindow, IServiceProvider> onLoaded = null) =>
+            new WpfApplicationBuilder<TApplication, TWindow>(new() { Args = args }).Build(onLoaded);
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WebApplicationBuilder"/> class with preconfigured defaults.
+        /// Initializes a new instance of the <see cref="WpfApplicationBuilder{TApplication,TWindow}"/> class with preconfigured defaults.
         /// </summary>
-        /// <returns>The <see cref="WebApplicationBuilder"/>.</returns>
-        public static WebApplicationBuilder<TApplication, TWindow> CreateBuilder() =>
+        /// <returns>The <see cref="WpfApplicationBuilder{TApplication,TWindow}"/>.</returns>
+        public static WpfApplicationBuilder<TApplication, TWindow> CreateBuilder() =>
             new(new());
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WebApplicationBuilder"/> class with preconfigured defaults.
+        /// Initializes a new instance of the <see cref="WpfApplicationBuilder{TApplication,TWindow}"/> class with preconfigured defaults.
         /// </summary>
         /// <param name="args">Command line arguments</param>
-        /// <returns>The <see cref="WebApplicationBuilder"/>.</returns>
-        public static WebApplicationBuilder<TApplication, TWindow> CreateBuilder(string[] args) =>
+        /// <returns>The <see cref="WpfApplicationBuilder{TApplication,TWindow}"/>.</returns>
+        public static WpfApplicationBuilder<TApplication, TWindow> CreateBuilder(string[] args) =>
             new(new() { Args = args });
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WebApplicationBuilder"/> class with preconfigured defaults.
+        /// Initializes a new instance of the <see cref="WpfApplicationBuilder{TApplication,TWindow}"/> class with preconfigured defaults.
         /// </summary>
-        /// <param name="options">The <see cref="WebApplicationOptions"/> to configure the <see cref="WebApplicationBuilder"/>.</param>
-        /// <returns>The <see cref="WebApplicationBuilder"/>.</returns>
-        public static WebApplicationBuilder<TApplication, TWindow> CreateBuilder(WebApplicationOptions options) =>
+        /// <param name="options">The <see cref="WpfApplicationOptions"/> to configure the <see cref="WpfApplicationBuilder{TApplication,TWindow}"/>.</param>
+        /// <returns>The <see cref="WpfApplicationBuilder{TApplication,TWindow}"/>.</returns>
+        public static WpfApplicationBuilder<TApplication, TWindow> CreateBuilder(WpfApplicationOptions options) =>
             new(options);
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace Wpf.Extensions.Hosting
         /// </summary>
         /// <param name="cancellationToken"></param>
         /// <returns>
-        /// A <see cref="Task"/> that represents the startup of the <see cref="WebApplication"/>.
+        /// A <see cref="Task"/> that represents the startup of the <see cref="WpfApplication{TApplication,TWindow}"/>.
         /// Successful completion indicates the HTTP server is ready to accept new requests.
         /// </returns>
         public Task StartAsync(CancellationToken cancellationToken = default) =>
@@ -122,7 +122,7 @@ namespace Wpf.Extensions.Hosting
         /// </summary>
         /// <param name="cancellationToken"></param>
         /// <returns>
-        /// A <see cref="Task"/> that represents the shutdown of the <see cref="WebApplication"/>.
+        /// A <see cref="Task"/> that represents the shutdown of the <see cref="WpfApplication{TApplication,TWindow}"/>.
         /// Successful completion indicates that all the HTTP server has stopped.
         /// </returns>
         public Task StopAsync(CancellationToken cancellationToken = default) =>
@@ -133,7 +133,7 @@ namespace Wpf.Extensions.Hosting
         /// </summary>
         /// <param name="url">The URL to listen to if the server hasn't been configured directly.</param>
         /// <returns>
-        /// A <see cref="Task"/> that represents the entire runtime of the <see cref="WebApplication"/> from startup to shutdown.
+        /// A <see cref="Task"/> that represents the entire runtime of the <see cref="WpfApplication{TApplication,TWindow}"/> from startup to shutdown.
         /// </returns>
         public Task RunAsync(string? url = null)
         {

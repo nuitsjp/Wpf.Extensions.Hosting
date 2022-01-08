@@ -7,7 +7,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace Wpf.Extensions.Hosting
 {
-    internal sealed class WebApplicationServiceCollection : IServiceCollection
+    internal sealed class WpfApplicationServiceCollection : IServiceCollection
     {
         private IServiceCollection _services = new ServiceCollection();
 

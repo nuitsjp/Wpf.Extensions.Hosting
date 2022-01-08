@@ -29,7 +29,7 @@ using Wpf.Extensions.Hosting;
 
 //var app = builder.Build();
 //app.RunAsync();
-var builder = WebApplication<App, MainWindow>.CreateBuilder();
+var builder = Wpf.Extensions.Hosting.WpfApplication<App, MainWindow>.CreateBuilder();
 builder.Services.AddTransient<MainWindowViewModel>();
 builder.Services.Configure<MySettings>(builder.Configuration.GetSection("MySettings"));
 var app = builder.Build((_, _, _) => { });

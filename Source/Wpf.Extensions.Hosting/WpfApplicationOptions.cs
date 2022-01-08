@@ -9,9 +9,9 @@ using Microsoft.Extensions.Hosting;
 namespace Wpf.Extensions.Hosting
 {
     /// <summary>
-    /// Options for configuing the behavior for <see cref="WebApplication.CreateBuilder(WebApplicationOptions)"/>.
+    /// Options for configuing the behavior for <see cref="WpfApplication{TApplication,TWindow}.CreateBuilder(WpfApplicationOptions)"/>.
     /// </summary>
-    public class WebApplicationOptions
+    public class WpfApplicationOptions
     {
         /// <summary>
         /// The command line arguments.

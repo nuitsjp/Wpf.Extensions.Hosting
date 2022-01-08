@@ -10,8 +10,8 @@ using Wpf.Extensions.Hosting.Infrastructure;
 namespace Wpf.Extensions.Hosting
 {
     /// <summary>
-    /// A non-buildable <see cref="IHostBuilder"/> for <see cref="WebApplicationBuilder"/>.
-    /// Use <see cref="WebApplicationBuilder.Build"/> to build the <see cref="WebApplicationBuilder"/>.
+    /// A non-buildable <see cref="IHostBuilder"/> for <see cref="WpfApplicationBuilder{TApplication,TWindow}"/>.
+    /// Use <see cref="WpfApplicationBuilder{TApplication,TWindow}.Build"/> to build the <see cref="WpfApplicationBuilder{TApplication,TWindow}"/>.
     /// </summary>
     public sealed class ConfigureHostBuilder : IHostBuilder, ISupportsConfigureWebHost
     {
@@ -71,17 +71,17 @@ namespace Wpf.Extensions.Hosting
             // and done other things based on environment name, application name or content root.
             if (!string.Equals(previousApplicationName, _configuration[HostDefaults.ApplicationKey], StringComparison.OrdinalIgnoreCase))
             {
-                throw new NotSupportedException($"The application name changed from \"{previousApplicationName}\" to \"{_configuration[HostDefaults.ApplicationKey]}\". Changing the host configuration using WebApplicationBuilder.Host is not supported. Use WebApplication.CreateBuilder(WebApplicationOptions) instead.");
+                throw new NotSupportedException($"The application name changed from \"{previousApplicationName}\" to \"{_configuration[HostDefaults.ApplicationKey]}\". Changing the host configuration using WpfApplicationBuilder.Host is not supported. Use WpfApplication.CreateBuilder(WpfApplicationOptions) instead.");
             }
 
             if (!string.Equals(previousContentRoot, HostingPathResolver.ResolvePath(_configuration[HostDefaults.ContentRootKey]), StringComparison.OrdinalIgnoreCase))
             {
-                throw new NotSupportedException($"The content root changed from \"{previousContentRoot}\" to \"{HostingPathResolver.ResolvePath(_configuration[HostDefaults.ContentRootKey])}\". Changing the host configuration using WebApplicationBuilder.Host is not supported. Use WebApplication.CreateBuilder(WebApplicationOptions) instead.");
+                throw new NotSupportedException($"The content root changed from \"{previousContentRoot}\" to \"{HostingPathResolver.ResolvePath(_configuration[HostDefaults.ContentRootKey])}\". Changing the host configuration using WpfApplicationBuilder.Host is not supported. Use WpfApplication.CreateBuilder(WpfApplicationOptions) instead.");
             }
 
             if (!string.Equals(previousEnvironment, _configuration[HostDefaults.EnvironmentKey], StringComparison.OrdinalIgnoreCase))
             {
-                throw new NotSupportedException($"The environment changed from \"{previousEnvironment}\" to \"{_configuration[HostDefaults.EnvironmentKey]}\". Changing the host configuration using WebApplicationBuilder.Host is not supported. Use WebApplication.CreateBuilder(WebApplicationOptions) instead.");
+                throw new NotSupportedException($"The environment changed from \"{previousEnvironment}\" to \"{_configuration[HostDefaults.EnvironmentKey]}\". Changing the host configuration using WpfApplicationBuilder.Host is not supported. Use WpfApplication.CreateBuilder(WpfApplicationOptions) instead.");
             }
 
             return this;
@@ -129,7 +129,7 @@ namespace Wpf.Extensions.Hosting
 
         IHostBuilder ISupportsConfigureWebHost.ConfigureWebHost(Action<IWebHostBuilder> configure, Action<WebHostBuilderOptions> configureOptions)
         {
-            throw new NotSupportedException("ConfigureWebHost() is not supported by WebApplicationBuilder.Host. Use the WebApplication returned by WebApplicationBuilder.Build() instead.");
+            throw new NotSupportedException("ConfigureWebHost() is not supported by WpfApplicationBuilder.Host. Use the WpfApplication returned by WpfApplicationBuilder.Build() instead.");
         }
     }
 }

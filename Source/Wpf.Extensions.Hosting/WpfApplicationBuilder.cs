@@ -15,7 +15,7 @@ namespace Wpf.Extensions.Hosting
     /// <summary>
     /// A builder for web applications and services.
     /// </summary>
-    public sealed class WebApplicationBuilder<TApplication, TWindow>
+    public sealed class WpfApplicationBuilder<TApplication, TWindow>
         where TApplication : Application
         where TWindow : Window
     {
@@ -23,12 +23,12 @@ namespace Wpf.Extensions.Hosting
 
         private readonly HostBuilder _hostBuilder = new();
         private readonly BootstrapHostBuilder _bootstrapHostBuilder;
-        private readonly WebApplicationServiceCollection _services = new();
+        private readonly WpfApplicationServiceCollection _services = new();
         private readonly List<KeyValuePair<string, string>> _hostConfigurationValues;
 
-        private WebApplication<TApplication, TWindow>? _builtApplication;
+        private WpfApplication<TApplication, TWindow>? _builtApplication;
 
-        internal WebApplicationBuilder(WebApplicationOptions options, Action<IHostBuilder>? configureDefaults = null)
+        internal WpfApplicationBuilder(WpfApplicationOptions options, Action<IHostBuilder>? configureDefaults = null)
         {
             Services = _services;
 
@@ -138,10 +138,10 @@ namespace Wpf.Extensions.Hosting
         public ConfigureHostBuilder Host { get; }
 
         /// <summary>
-        /// Builds the <see cref="WebApplication"/>.
+        /// Builds the <see cref="WpfApplication{TApplication,TWindow}"/>.
         /// </summary>
-        /// <returns>A configured <see cref="WebApplication"/>.</returns>
-        public WebApplication<TApplication, TWindow> Build(Action<TApplication, TWindow, IServiceProvider> onLoaded)
+        /// <returns>A configured <see cref="WpfApplication{TApplication,TWindow}"/>.</returns>
+        public WpfApplication<TApplication, TWindow> Build(Action<TApplication, TWindow, IServiceProvider> onLoaded)
         {
             Thread.CurrentThread.SetApartmentState(ApartmentState.Unknown);
             Thread.CurrentThread.SetApartmentState(ApartmentState.STA);
@@ -174,7 +174,7 @@ namespace Wpf.Extensions.Hosting
             });
 
             // This needs to go here to avoid adding the IHostedService that boots the server twice (the GenericWebHostService).
-            // Copy the services that were added via WebApplicationBuilder.Services into the final IServiceCollection
+            // Copy the services that were added via WpfApplicationBuilder.Services into the final IServiceCollection
             _hostBuilder.ConfigureServices((context, services) =>
             {
                 // We've only added services configured by the GenericWebHostBuilder and WebHost.ConfigureWebDefaults
@@ -228,7 +228,7 @@ namespace Wpf.Extensions.Hosting
             // Run the other callbacks on the final host builder
             Host.RunDeferredCallbacks(_hostBuilder);
 
-            _builtApplication = new WebApplication<TApplication, TWindow>(_hostBuilder.Build());
+            _builtApplication = new WpfApplication<TApplication, TWindow>(_hostBuilder.Build());
 
             // Mark the service collection as read-only to prevent future modifications
             _services.IsReadOnly = true;
@@ -244,7 +244,7 @@ namespace Wpf.Extensions.Hosting
         {
             Debug.Assert(_builtApplication is not null);
 
-            // UseRouting called before WebApplication such as in a StartupFilter
+            // UseRouting called before WpfApplication such as in a StartupFilter
             // lets remove the property and reset it at the end so we don't mess with the routes in the filter
             if (app.Properties.TryGetValue(EndpointRouteBuilderKey, out var priorRouteBuilder))
             {
@@ -256,8 +256,8 @@ namespace Wpf.Extensions.Hosting
             // destination.Run(source)
             // destination.UseEndpoints()
 
-            // Set the route builder so that UseRouting will use the WebApplication as the IEndpointRouteBuilder for route matching
-            app.Properties.Add(WebApplication<TApplication, TWindow>.GlobalEndpointRouteBuilderKey, _builtApplication);
+            // Set the route builder so that UseRouting will use the WpfApplication as the IEndpointRouteBuilder for route matching
+            app.Properties.Add(WpfApplication<TApplication, TWindow>.GlobalEndpointRouteBuilderKey, _builtApplication);
 
             // Only call UseRouting() if there are endpoints configured and UseRouting() wasn't called on the global route builder already
             //if (_builtApplication.DataSources.Count > 0)
@@ -294,7 +294,7 @@ namespace Wpf.Extensions.Hosting
             }
 
             // Remove the route builder to clean up the properties, we're done adding routes to the pipeline
-            app.Properties.Remove(WebApplication<TApplication, TWindow>.GlobalEndpointRouteBuilderKey);
+            app.Properties.Remove(WpfApplication<TApplication, TWindow>.GlobalEndpointRouteBuilderKey);
 
             // reset route builder if it existed, this is needed for StartupFilters
             if (priorRouteBuilder is not null)
