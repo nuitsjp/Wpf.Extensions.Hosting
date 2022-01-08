@@ -19,12 +19,10 @@ namespace Wpf.Extensions.Hosting
     /// <summary>
     /// The web application used to configure the HTTP pipeline, and routes.
     /// </summary>
-    public sealed class WpfApplication<TApplication, TWindow> : IHost, IApplicationBuilder, IAsyncDisposable
+    public sealed class WpfApplication<TApplication, TWindow> : IHost, IAsyncDisposable
         where TApplication : Application
         where TWindow : Window
     {
-        internal const string GlobalEndpointRouteBuilderKey = "__GlobalEndpointRouteBuilder";
-
         private readonly IHost _host;
 
         internal WpfApplication(IHost host)
@@ -32,8 +30,6 @@ namespace Wpf.Extensions.Hosting
             _host = host;
             ApplicationBuilder = new ApplicationBuilder(host.Services);
             Logger = host.Services.GetRequiredService<ILoggerFactory>().CreateLogger(Environment.ApplicationName);
-
-            Properties[GlobalEndpointRouteBuilderKey] = this;
         }
 
         /// <summary>
@@ -61,18 +57,8 @@ namespace Wpf.Extensions.Hosting
         /// </summary>
         public ILogger Logger { get; }
 
-        IServiceProvider IApplicationBuilder.ApplicationServices
-        {
-            get => ApplicationBuilder.ApplicationServices;
-            set => ApplicationBuilder.ApplicationServices = value;
-        }
-
         internal IFeatureCollection ServerFeatures => _host.Services.GetRequiredService<IServer>().Features;
-        IFeatureCollection IApplicationBuilder.ServerFeatures => ServerFeatures;
-
         internal IDictionary<string, object?> Properties => ApplicationBuilder.Properties;
-        IDictionary<string, object?> IApplicationBuilder.Properties => Properties;
-
         internal ApplicationBuilder ApplicationBuilder { get; }
 
         /// <summary>
@@ -162,22 +148,6 @@ namespace Wpf.Extensions.Hosting
         public ValueTask DisposeAsync() => ((IAsyncDisposable)_host).DisposeAsync();
 
         internal RequestDelegate BuildRequestDelegate() => ApplicationBuilder.Build();
-        RequestDelegate IApplicationBuilder.Build() => BuildRequestDelegate();
-
-        // REVIEW: Should this be wrapping another type?
-        IApplicationBuilder IApplicationBuilder.New()
-        {
-            var newBuilder = ApplicationBuilder.New();
-            // Remove the route builder so branched pipelines have their own routing world
-            newBuilder.Properties.Remove(GlobalEndpointRouteBuilderKey);
-            return newBuilder;
-        }
-
-        IApplicationBuilder IApplicationBuilder.Use(Func<RequestDelegate, RequestDelegate> middleware)
-        {
-            ApplicationBuilder.Use(middleware);
-            return this;
-        }
 
         private void Listen(string? url)
         {
