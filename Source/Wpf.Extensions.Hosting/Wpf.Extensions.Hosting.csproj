@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFrameworks>net461;net6.0-windows</TargetFrameworks>
@@ -11,7 +11,6 @@
 		<Company>Atsushi Nakamura</Company>
 		<Copyright>MIT</Copyright>
 		<PackageProjectUrl>https://github.com/nuitsjp/Nuits.Extensions.Hosting.Wpf</PackageProjectUrl>
-		<PackageIcon>nuits.jp.png</PackageIcon>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
 
@@ -23,18 +22,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.0" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Using Include="Nuits.Extensions.Hosting.Wpf" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<None Include="nuits.jp.png">
-			<Pack>True</Pack>
-			<PackagePath>\</PackagePath>
-		</None>
 	</ItemGroup>
 
 </Project>

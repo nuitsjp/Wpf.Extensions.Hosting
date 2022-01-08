@@ -10,13 +10,14 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Content Include="appsettings.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </Content>
+		<Content Include="appsettings.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Nuits.Extensions.Hosting.Wpf\Nuits.Extensions.Hosting.Wpf.csproj" />
+	  <ProjectReference Include="..\Nuits.Extensions.Hosting.Wpf\Nuits.Extensions.Hosting.Wpf.csproj" />
+	  <ProjectReference Include="..\Wpf.Extensions.Hosting\Wpf.Extensions.Hosting.csproj" />
 	</ItemGroup>
 
 </Project>
