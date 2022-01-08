@@ -3,16 +3,11 @@
 
 #nullable enable
 
-using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Reflection;
-using System.Reflection.Metadata;
 
-
-namespace Microsoft.Extensions.Internal
+namespace Wpf.Extensions.Hosting.Infrastructure
 {
     internal class PropertyHelper
     {

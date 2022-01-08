@@ -3,7 +3,7 @@
 
 using System.IO;
 
-namespace Microsoft.AspNetCore
+namespace Wpf.Extensions.Hosting
 {
     internal static class HostingPathResolver
     {

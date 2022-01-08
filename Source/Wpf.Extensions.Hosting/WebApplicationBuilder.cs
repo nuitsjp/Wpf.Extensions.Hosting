@@ -2,16 +2,15 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Diagnostics;
-using System.Linq;
 using System.Windows;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Nuits.Extensions.Hosting.Wpf;
 
-namespace Microsoft.AspNetCore.Builder
+namespace Wpf.Extensions.Hosting
 {
     /// <summary>
     /// A builder for web applications and services.

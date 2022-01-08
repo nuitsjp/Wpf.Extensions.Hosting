@@ -2,12 +2,12 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Hosting.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Wpf.Extensions.Hosting.Infrastructure;
 
-namespace Microsoft.AspNetCore.Builder
+namespace Wpf.Extensions.Hosting
 {
     /// <summary>
     /// A non-buildable <see cref="IHostBuilder"/> for <see cref="WebApplicationBuilder"/>.

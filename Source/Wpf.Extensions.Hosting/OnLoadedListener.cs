@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Nuits.Extensions.Hosting.Wpf;
+namespace Wpf.Extensions.Hosting;
 
 internal class OnLoadedListener<TApplication, TWindow>
     where TApplication: Application

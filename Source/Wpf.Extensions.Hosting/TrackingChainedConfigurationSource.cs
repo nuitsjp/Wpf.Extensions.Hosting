@@ -3,7 +3,7 @@
 
 using Microsoft.Extensions.Configuration;
 
-namespace Microsoft.AspNetCore.Builder
+namespace Wpf.Extensions.Hosting
 {
     internal sealed class TrackingChainedConfigurationSource : IConfigurationSource
     {

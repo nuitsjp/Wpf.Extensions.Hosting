@@ -1,7 +1,6 @@
-﻿using System.CodeDom;
-using System.Windows;
+﻿using System.Windows;
 
-namespace Nuits.Extensions.Hosting.Wpf;
+namespace Wpf.Extensions.Hosting;
 
 internal class ApplicationContainer<TApplication, TWindow>
     where TApplication : Application

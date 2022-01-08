@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Nuits.Extensions.Hosting.Wpf;
+using Wpf.Extensions.Hosting;
 
 //Host.CreateDefaultBuilder(args)
 //    .ConfigureLogging(logging =>

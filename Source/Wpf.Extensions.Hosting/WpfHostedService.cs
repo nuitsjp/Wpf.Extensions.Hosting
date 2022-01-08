@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using Microsoft.Extensions.Hosting;
 
-namespace Nuits.Extensions.Hosting.Wpf;
+namespace Wpf.Extensions.Hosting;
 
 internal class WpfHostedService<TApplication, TWindow> : IHostedService
     where TApplication : Application

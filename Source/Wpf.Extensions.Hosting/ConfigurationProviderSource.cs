@@ -5,7 +5,7 @@ using System.Collections;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Primitives;
 
-namespace Microsoft.AspNetCore.Builder
+namespace Wpf.Extensions.Hosting
 {
     internal sealed class ConfigurationProviderSource : IConfigurationSource
     {

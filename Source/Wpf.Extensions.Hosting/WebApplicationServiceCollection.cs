@@ -5,7 +5,7 @@ using System.Collections;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace Microsoft.AspNetCore
+namespace Wpf.Extensions.Hosting
 {
     internal sealed class WebApplicationServiceCollection : IServiceCollection
     {
