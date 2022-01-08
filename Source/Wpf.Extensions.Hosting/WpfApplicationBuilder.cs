@@ -1,6 +1,7 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
+using System.Runtime.CompilerServices;
 using System.Windows;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,12 +20,15 @@ namespace Wpf.Extensions.Hosting
         private readonly HostBuilder _hostBuilder = new();
         private readonly WpfApplicationServiceCollection _services = new();
         private readonly List<KeyValuePair<string, string>> _hostConfigurationValues;
+        private readonly Action<TApplication, TWindow, IServiceProvider> _onLoaded;
 
         private WpfApplication<TApplication, TWindow>? _builtApplication;
 
-        internal WpfApplicationBuilder(WpfApplicationOptions options)
+        internal WpfApplicationBuilder(WpfApplicationOptions<TApplication, TWindow> options)
         {
             Services = _services;
+
+            _onLoaded = options.OnLoaded ?? ((_, _, _) => { });
 
             // Run methods to configure both generic and web host defaults early to populate config from appsettings.json
             // environment variables (both DOTNET_ prefixed) and other possible default sources to prepopulate
@@ -90,14 +94,14 @@ namespace Wpf.Extensions.Hosting
         /// Builds the <see cref="WpfApplication{TApplication,TWindow}"/>.
         /// </summary>
         /// <returns>A configured <see cref="WpfApplication{TApplication,TWindow}"/>.</returns>
-        public WpfApplication<TApplication, TWindow> Build(Action<TApplication, TWindow, IServiceProvider> onLoaded)
+        public WpfApplication<TApplication, TWindow> Build()
         {
             Thread.CurrentThread.SetApartmentState(ApartmentState.Unknown);
             Thread.CurrentThread.SetApartmentState(ApartmentState.STA);
 
             Services.AddHostedService<WpfHostedService<TApplication, TWindow>>();
             Services.AddTransient<ApplicationContainer<TApplication, TWindow>>();
-            Services.AddTransient(_ => new OnLoadedListener<TApplication, TWindow>(onLoaded));
+            Services.AddTransient(_ => new OnLoadedListener<TApplication, TWindow>(_onLoaded));
             Services.AddSingleton<TApplication>();
             Services.AddTransient<TWindow>();
 

@@ -54,8 +54,8 @@ namespace Wpf.Extensions.Hosting
         /// </summary>
         /// <param name="args">Command line arguments</param>
         /// <returns>The <see cref="WpfApplication{TApplication,TWindow}"/>.</returns>
-        public static WpfApplication<TApplication, TWindow> Create(string[]? args = null, Action<TApplication, TWindow, IServiceProvider> onLoaded = null) =>
-            new WpfApplicationBuilder<TApplication, TWindow>(new() { Args = args }).Build(onLoaded);
+        public static WpfApplication<TApplication, TWindow> Create(string[]? args = null) =>
+            new WpfApplicationBuilder<TApplication, TWindow>(new() { Args = args }).Build();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WpfApplicationBuilder{TApplication,TWindow}"/> class with preconfigured defaults.
@@ -75,9 +75,9 @@ namespace Wpf.Extensions.Hosting
         /// <summary>
         /// Initializes a new instance of the <see cref="WpfApplicationBuilder{TApplication,TWindow}"/> class with preconfigured defaults.
         /// </summary>
-        /// <param name="options">The <see cref="WpfApplicationOptions"/> to configure the <see cref="WpfApplicationBuilder{TApplication,TWindow}"/>.</param>
+        /// <param name="options">The <see cref="WpfApplicationOptions{TApplication,TWindow}"/> to configure the <see cref="WpfApplicationBuilder{TApplication,TWindow}"/>.</param>
         /// <returns>The <see cref="WpfApplicationBuilder{TApplication,TWindow}"/>.</returns>
-        public static WpfApplicationBuilder<TApplication, TWindow> CreateBuilder(WpfApplicationOptions options) =>
+        public static WpfApplicationBuilder<TApplication, TWindow> CreateBuilder(WpfApplicationOptions<TApplication, TWindow> options) =>
             new(options);
 
         /// <summary>

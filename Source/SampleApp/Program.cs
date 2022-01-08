@@ -1,8 +1,4 @@
-﻿using DemoNet6Style;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Wpf.Extensions.Hosting;
+﻿using SampleApp;
 
 var builder = WpfApplication<App, MainWindow>.CreateBuilder(args);
 

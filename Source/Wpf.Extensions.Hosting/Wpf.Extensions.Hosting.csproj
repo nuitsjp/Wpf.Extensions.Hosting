@@ -12,6 +12,7 @@
 		<Copyright>MIT</Copyright>
 		<PackageProjectUrl>https://github.com/nuitsjp/Nuits.Extensions.Hosting.Wpf</PackageProjectUrl>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<Version>0.0.2</Version>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -22,8 +23,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<!-- Only for .NET 6, default implicit Using. -->
+		<None Include="Wpf.Extensions.Hosting.props" Pack="true" PackagePath="build\net6.0\Wpf.Extensions.Hosting.props" />
 	</ItemGroup>
 
 </Project>
