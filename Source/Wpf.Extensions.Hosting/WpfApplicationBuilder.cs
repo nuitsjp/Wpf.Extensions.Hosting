@@ -1,10 +1,7 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
-using System.Diagnostics;
 using System.Windows;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -19,64 +16,22 @@ namespace Wpf.Extensions.Hosting
         where TApplication : Application
         where TWindow : Window
     {
-        private const string EndpointRouteBuilderKey = "__EndpointRouteBuilder";
-
         private readonly HostBuilder _hostBuilder = new();
-        private readonly BootstrapHostBuilder _bootstrapHostBuilder;
         private readonly WpfApplicationServiceCollection _services = new();
         private readonly List<KeyValuePair<string, string>> _hostConfigurationValues;
 
         private WpfApplication<TApplication, TWindow>? _builtApplication;
 
-        internal WpfApplicationBuilder(WpfApplicationOptions options, Action<IHostBuilder>? configureDefaults = null)
+        internal WpfApplicationBuilder(WpfApplicationOptions options)
         {
             Services = _services;
 
-            var args = options.Args;
-
             // Run methods to configure both generic and web host defaults early to populate config from appsettings.json
-            // environment variables (both DOTNET_ and ASPNETCORE_ prefixed) and other possible default sources to prepopulate
+            // environment variables (both DOTNET_ prefixed) and other possible default sources to prepopulate
             // the correct defaults.
-            _bootstrapHostBuilder = new BootstrapHostBuilder(Services, _hostBuilder.Properties);
-
-            // Don't specify the args here since we want to apply them later so that args
-            // can override the defaults specified by ConfigureWebHostDefaults
-            _bootstrapHostBuilder.ConfigureDefaults(args: null);
-
-            // This is for testing purposes
-            configureDefaults?.Invoke(_bootstrapHostBuilder);
-
-            // We specify the command line here last since we skipped the one in the call to ConfigureDefaults.
-            // The args can contain both host and application settings so we want to make sure
-            // we order those configuration providers appropriately without duplicating them
-            if (args is { Length: > 0 })
-            {
-                _bootstrapHostBuilder.ConfigureAppConfiguration(config =>
-                {
-                    config.AddCommandLine(args);
-                });
-            }
-
-            _bootstrapHostBuilder.ConfigureWebHostDefaults(webHostBuilder =>
-            {
-                // Runs inline.
-                //webHostBuilder.Configure(ConfigureApplication);
-
-                // Attempt to set the application name from options
-                //options.ApplyApplicationName(webHostBuilder);
-            });
-
-            // Apply the args to host configuration last since ConfigureWebHostDefaults overrides a host specific setting (the application name).
-            _bootstrapHostBuilder.ConfigureHostConfiguration(config =>
-            {
-                if (args is { Length: > 0 })
-                {
-                    config.AddCommandLine(args);
-                }
-
-                // Apply the options after the args
-                options.ApplyHostConfiguration(config);
-            });
+            var bootstrapHostBuilder = new BootstrapHostBuilder(Services, _hostBuilder.Properties);
+            bootstrapHostBuilder.ConfigureDefaults(args: options.Args);
+            bootstrapHostBuilder.ConfigureHostConfiguration(options.ApplyHostConfiguration);
 
             Configuration = new();
 
@@ -84,7 +39,7 @@ namespace Wpf.Extensions.Hosting
             _services.TrackHostedServices = true;
 
             // This is the application configuration
-            var (hostContext, hostConfiguration) = _bootstrapHostBuilder.RunDefaultCallbacks(Configuration, _hostBuilder);
+            var (hostContext, hostConfiguration) = bootstrapHostBuilder.RunDefaultCallbacks(Configuration, _hostBuilder);
 
             // Stop tracking here
             _services.TrackHostedServices = false;
@@ -97,7 +52,7 @@ namespace Wpf.Extensions.Hosting
             // Grab the WebHostBuilderContext from the property bag to use in the ConfigureWebHostBuilder
             //var webHostContext = (WebHostBuilderContext)hostContext.Properties[typeof(WebHostBuilderContext)];
 
-            // Grab the IWebHostEnvironment from the webHostContext. This also matches the instance in the IServiceCollection.
+            // Grab the IHostEnvironment from the webHostContext. This also matches the instance in the IServiceCollection.
             Environment = hostContext.HostingEnvironment;
             Logging = new LoggingBuilder(Services);
             Host = new ConfigureHostBuilder(hostContext, Configuration, Services);
@@ -124,12 +79,6 @@ namespace Wpf.Extensions.Hosting
         /// A collection of logging providers for the application to compose. This is useful for adding new logging providers.
         /// </summary>
         public ILoggingBuilder Logging { get; }
-
-        /// <summary>
-        /// An <see cref="IWebHostBuilder"/> for configuring server specific properties, but not building.
-        /// To build after configuration, call <see cref="Build"/>.
-        /// </summary>
-        public ConfigureWebHostBuilder WebHost { get; }
 
         /// <summary>
         /// An <see cref="IHostBuilder"/> for configuring host specific properties, but not building.

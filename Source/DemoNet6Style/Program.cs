@@ -1,10 +1,6 @@
-﻿using System.Windows;
-using DemoNet6Style;
-using Microsoft.AspNetCore.Builder;
+﻿using DemoNet6Style;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Nuits.Extensions.Hosting.Wpf;
 using Wpf.Extensions.Hosting;
 
 //Host.CreateDefaultBuilder(args)
@@ -29,7 +25,7 @@ using Wpf.Extensions.Hosting;
 
 //var app = builder.Build();
 //app.RunAsync();
-var builder = Wpf.Extensions.Hosting.WpfApplication<App, MainWindow>.CreateBuilder();
+var builder = WpfApplication<App, MainWindow>.CreateBuilder(args);
 builder.Services.AddTransient<MainWindowViewModel>();
 builder.Services.Configure<MySettings>(builder.Configuration.GetSection("MySettings"));
 var app = builder.Build((_, _, _) => { });

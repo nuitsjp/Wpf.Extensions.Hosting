@@ -2,17 +2,10 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Windows;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Builder.Internal;
-using Microsoft.AspNetCore.Hosting.Server;
-using Microsoft.AspNetCore.Hosting.Server.Features;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Wpf.Extensions.Hosting.Infrastructure;
 
 namespace Wpf.Extensions.Hosting
 {
@@ -28,7 +21,6 @@ namespace Wpf.Extensions.Hosting
         internal WpfApplication(IHost host)
         {
             _host = host;
-            ApplicationBuilder = new ApplicationBuilder(host.Services);
             Logger = host.Services.GetRequiredService<ILoggerFactory>().CreateLogger(Environment.ApplicationName);
         }
 
@@ -43,7 +35,7 @@ namespace Wpf.Extensions.Hosting
         public IConfiguration Configuration => _host.Services.GetRequiredService<IConfiguration>();
 
         /// <summary>
-        /// The application's configured <see cref="IWebHostEnvironment"/>.
+        /// The application's configured <see cref="IHostEnvironment"/>.
         /// </summary>
         public IHostEnvironment Environment => _host.Services.GetRequiredService<IHostEnvironment>();
 
@@ -56,10 +48,6 @@ namespace Wpf.Extensions.Hosting
         /// The default logger for the application.
         /// </summary>
         public ILogger Logger { get; }
-
-        internal IFeatureCollection ServerFeatures => _host.Services.GetRequiredService<IServer>().Features;
-        internal IDictionary<string, object?> Properties => ApplicationBuilder.Properties;
-        internal ApplicationBuilder ApplicationBuilder { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WpfApplication{TApplication,TWindow}"/> class with preconfigured defaults.
@@ -115,29 +103,6 @@ namespace Wpf.Extensions.Hosting
             _host.StopAsync(cancellationToken);
 
         /// <summary>
-        /// Runs an application and returns a Task that only completes when the token is triggered or shutdown is triggered.
-        /// </summary>
-        /// <param name="url">The URL to listen to if the server hasn't been configured directly.</param>
-        /// <returns>
-        /// A <see cref="Task"/> that represents the entire runtime of the <see cref="WpfApplication{TApplication,TWindow}"/> from startup to shutdown.
-        /// </returns>
-        public Task RunAsync(string? url = null)
-        {
-            Listen(url);
-            return HostingAbstractionsHostExtensions.RunAsync(this);
-        }
-
-        /// <summary>
-        /// Runs an application and block the calling thread until host shutdown.
-        /// </summary>
-        /// <param name="url">The URL to listen to if the server hasn't been configured directly.</param>
-        public void Run(string? url = null)
-        {
-            Listen(url);
-            HostingAbstractionsHostExtensions.Run(this);
-        }
-
-        /// <summary>
         /// Disposes the application.
         /// </summary>
         void IDisposable.Dispose() => _host.Dispose();
@@ -146,28 +111,5 @@ namespace Wpf.Extensions.Hosting
         /// Disposes the application.
         /// </summary>
         public ValueTask DisposeAsync() => ((IAsyncDisposable)_host).DisposeAsync();
-
-        internal RequestDelegate BuildRequestDelegate() => ApplicationBuilder.Build();
-
-        private void Listen(string? url)
-        {
-            if (url is null)
-            {
-                return;
-            }
-
-            var addresses = ServerFeatures.Get<IServerAddressesFeature>()?.Addresses;
-            if (addresses is null)
-            {
-                throw new InvalidOperationException($"Changing the URL is not supported because no valid {nameof(IServerAddressesFeature)} was found.");
-            }
-            if (addresses.IsReadOnly)
-            {
-                throw new InvalidOperationException($"Changing the URL is not supported because {nameof(IServerAddressesFeature.Addresses)} {nameof(ICollection<string>.IsReadOnly)}.");
-            }
-
-            addresses.Clear();
-            addresses.Add(url);
-        }
     }
 }

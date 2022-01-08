@@ -1,6 +1,7 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
+using System.IO;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
@@ -104,11 +105,8 @@ namespace Wpf.Extensions.Hosting
             var hostingEnvironment = new HostingEnvironment()
             {
                 ApplicationName = hostConfiguration[HostDefaults.ApplicationKey],
-                EnvironmentName = hostConfiguration[HostDefaults.EnvironmentKey] ?? Environments.Production,
-                ContentRootPath = HostingPathResolver.ResolvePath(hostConfiguration[HostDefaults.ContentRootKey]),
+                EnvironmentName = hostConfiguration[HostDefaults.EnvironmentKey] ?? Environments.Production
             };
-
-            hostingEnvironment.ContentRootFileProvider = new PhysicalFileProvider(hostingEnvironment.ContentRootPath);
 
             // Normalize the content root setting for the path in configuration
             hostConfiguration[HostDefaults.ContentRootKey] = hostingEnvironment.ContentRootPath;
@@ -121,7 +119,7 @@ namespace Wpf.Extensions.Hosting
 
             // Split the host configuration and app configuration so that the
             // subsequent callback don't get a chance to modify the host configuration.
-            configuration.SetBasePath(hostingEnvironment.ContentRootPath);
+            configuration.SetBasePath(Directory.GetCurrentDirectory());
 
             // Chain the host configuration and app configuration together.
             configuration.AddConfiguration(hostConfiguration, shouldDisposeConfiguration: true);

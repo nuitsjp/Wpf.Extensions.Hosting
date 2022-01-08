@@ -16,7 +16,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Nuits.Extensions.Hosting.Wpf\Nuits.Extensions.Hosting.Wpf.csproj" />
 	  <ProjectReference Include="..\Wpf.Extensions.Hosting\Wpf.Extensions.Hosting.csproj" />
 	</ItemGroup>
 
