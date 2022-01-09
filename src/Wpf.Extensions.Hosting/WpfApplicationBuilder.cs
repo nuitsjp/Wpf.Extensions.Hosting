@@ -13,8 +13,7 @@ namespace Wpf.Extensions.Hosting
     /// <summary>
     /// A builder for web applications and services.
     /// </summary>
-    public sealed class WpfApplicationBuilder<TApplication, TWindow>
-        where TApplication : Application
+    public sealed class WpfApplicationBuilder<TApplication, TWindow> : IWpfApplicationBuilder<TApplication, TWindow> where TApplication : Application
         where TWindow : Window
     {
         private readonly HostBuilder _hostBuilder = new();
