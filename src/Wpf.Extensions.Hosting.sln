@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleApp", "SampleApp\Samp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleAppWithStartupUri", "SampleAppWithStartupUri\SampleAppWithStartupUri.csproj", "{2AAE1D4D-AC5C-4491-92DF-AA12CF7A3196}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GettingStarted", "GettingStarted\GettingStarted.csproj", "{F5C7DC4A-9C15-4E2E-97DE-02327E15C475}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{2AAE1D4D-AC5C-4491-92DF-AA12CF7A3196}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2AAE1D4D-AC5C-4491-92DF-AA12CF7A3196}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2AAE1D4D-AC5C-4491-92DF-AA12CF7A3196}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5C7DC4A-9C15-4E2E-97DE-02327E15C475}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5C7DC4A-9C15-4E2E-97DE-02327E15C475}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5C7DC4A-9C15-4E2E-97DE-02327E15C475}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5C7DC4A-9C15-4E2E-97DE-02327E15C475}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
