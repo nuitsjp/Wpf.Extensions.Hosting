@@ -12,7 +12,7 @@
 		<Copyright>MIT</Copyright>
 		<PackageProjectUrl>https://github.com/nuitsjp/Nuits.Extensions.Hosting.Wpf</PackageProjectUrl>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<Version>0.0.2</Version>
+		<Version>0.0.3</Version>
 	</PropertyGroup>
 
 	<ItemGroup>
