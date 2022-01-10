@@ -99,7 +99,6 @@ namespace Wpf.Extensions.Hosting
             }
 
             Services.AddHostedService<WpfHostedService<TApplication, TWindow>>();
-            Services.AddSingleton<ApplicationContainer<TApplication, TWindow>>();
             Services.AddSingleton<TApplication>();
             Services.AddTransient<TWindow>();
 

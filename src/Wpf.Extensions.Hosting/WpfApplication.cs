@@ -16,6 +16,7 @@ namespace Wpf.Extensions.Hosting
         where TApplication : Application
         where TWindow : Window
     {
+        private bool _isLoaded;
         private readonly IHost _host;
 
         internal WpfApplication(IHost host)
@@ -92,11 +93,19 @@ namespace Wpf.Extensions.Hosting
         /// </returns>
         public Task StartAsync(CancellationToken cancellationToken = default)
         {
-            var applicationContainer = Services.GetRequiredService<ApplicationContainer<TApplication, TWindow>>();
-            applicationContainer.Loaded += (sender, args) =>
+            var application = Services.GetRequiredService<TApplication>();
+            application.Activated += (sender, args) =>
             {
-                Loaded?.Invoke(sender, args);
+                if (_isLoaded)
+                {
+                    return;
+                }
+
+                Loaded?.Invoke(this, new ApplicationLoadedEventArgs<TApplication, TWindow>(application, (TWindow)application.MainWindow!));
+
+                _isLoaded = true;
             };
+
             return _host.StartAsync(cancellationToken);
         }
 

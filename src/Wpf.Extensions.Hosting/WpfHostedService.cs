@@ -7,16 +7,18 @@ internal class WpfHostedService<TApplication, TWindow> : IHostedService
     where TApplication : Application
     where TWindow : Window
 {
-    private readonly ApplicationContainer<TApplication, TWindow> _applicationContainer;
+    private readonly TApplication _application;
+    private readonly TWindow? _window;
 
-    public WpfHostedService(ApplicationContainer<TApplication, TWindow> applicationContainer)
+    public WpfHostedService(TApplication application, TWindow? window)
     {
-        _applicationContainer = applicationContainer;
+        _application = application;
+        _window = window;
     }
 
     public Task StartAsync(CancellationToken cancellationToken)
     {
-        _applicationContainer.Run();
+        _application.Run(_window);
         return Task.CompletedTask;
     }
 
