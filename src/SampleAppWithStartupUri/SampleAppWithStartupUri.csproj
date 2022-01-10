@@ -8,22 +8,12 @@
 		<EnableDefaultApplicationDefinition>false</EnableDefaultApplicationDefinition>
 	</PropertyGroup>
 
-	<ItemGroup>
-	  <None Remove="appsettings.json" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Content Include="appsettings.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </Content>
-	</ItemGroup>
-
 	<!--<ItemGroup>
 		<PackageReference Include="Wpf.Extensions.Hosting" Version="0.0.2" />
 	</ItemGroup>-->
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Wpf.Extensions.Hosting\Wpf.Extensions.Hosting.csproj" />
+		<ProjectReference Include="..\Wpf.Extensions.Hosting\Wpf.Extensions.Hosting.csproj" />
 	</ItemGroup>
 
 </Project>

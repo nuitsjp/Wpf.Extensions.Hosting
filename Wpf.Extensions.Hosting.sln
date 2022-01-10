@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wpf.Extensions.Hosting", "s
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleApp", "src\SampleApp\SampleApp.csproj", "{CA0003E6-8350-4628-943E-0CFF713C5027}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleAppWithStartupUri", "src\SampleAppWithStartupUri\SampleAppWithStartupUri.csproj", "{10944E74-150F-40ED-B37C-3633D98AFBA2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{CA0003E6-8350-4628-943E-0CFF713C5027}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA0003E6-8350-4628-943E-0CFF713C5027}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA0003E6-8350-4628-943E-0CFF713C5027}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10944E74-150F-40ED-B37C-3633D98AFBA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10944E74-150F-40ED-B37C-3633D98AFBA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10944E74-150F-40ED-B37C-3633D98AFBA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10944E74-150F-40ED-B37C-3633D98AFBA2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,7 +1,6 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
-using System.Runtime.CompilerServices;
 using System.Windows;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,15 +18,12 @@ namespace Wpf.Extensions.Hosting
         private readonly HostBuilder _hostBuilder = new();
         private readonly WpfApplicationServiceCollection _services = new();
         private readonly List<KeyValuePair<string, string>> _hostConfigurationValues;
-        private readonly Action<TApplication, TWindow, IServiceProvider> _onLoaded;
 
         private WpfApplication<TApplication, TWindow>? _builtApplication;
 
-        internal WpfApplicationBuilder(WpfApplicationOptions<TApplication, TWindow> options)
+        internal WpfApplicationBuilder(WpfApplicationOptions options)
         {
             Services = _services;
-
-            _onLoaded = options.OnLoaded ?? ((_, _, _) => { });
 
             // Run methods to configure both generic and web host defaults early to populate config from appsettings.json
             // environment variables (both DOTNET_ prefixed) and other possible default sources to prepopulate
@@ -95,12 +91,15 @@ namespace Wpf.Extensions.Hosting
         /// <returns>A configured <see cref="WpfApplication{TApplication,TWindow}"/>.</returns>
         public WpfApplication<TApplication, TWindow> Build()
         {
-            Thread.CurrentThread.SetApartmentState(ApartmentState.Unknown);
-            Thread.CurrentThread.SetApartmentState(ApartmentState.STA);
+            // 
+            if (!Thread.CurrentThread.TrySetApartmentState(ApartmentState.STA))
+            {
+                Thread.CurrentThread.SetApartmentState(ApartmentState.Unknown);
+                Thread.CurrentThread.SetApartmentState(ApartmentState.STA);
+            }
 
             Services.AddHostedService<WpfHostedService<TApplication, TWindow>>();
-            Services.AddTransient<ApplicationContainer<TApplication, TWindow>>();
-            Services.AddTransient(_ => new OnLoadedListener<TApplication, TWindow>(_onLoaded));
+            Services.AddSingleton<ApplicationContainer<TApplication, TWindow>>();
             Services.AddSingleton<TApplication>();
             Services.AddTransient<TWindow>();
 
@@ -114,7 +113,7 @@ namespace Wpf.Extensions.Hosting
             var chainedConfigSource = new TrackingChainedConfigurationSource(Configuration);
 
             // Wire up the application configuration by copying the already built configuration providers over to final configuration builder.
-            // We wrap the existing provider in a configuration source to avoid re-bulding the already added configuration sources.
+            // We wrap the existing provider in a configuration source to avoid re-building the already added configuration sources.
             _hostBuilder.ConfigureAppConfiguration(builder =>
             {
                 builder.Add(chainedConfigSource);
@@ -157,12 +156,12 @@ namespace Wpf.Extensions.Hosting
                 // to the new one. This allows code that has references to the service collection to still function.
                 _services.InnerCollection = services;
 
-                var hostBuilderProviders = ((IConfigurationRoot)context.Configuration).Providers;
+                var hostBuilderProviders = ((IConfigurationRoot)context.Configuration).Providers.ToArray();
 
                 if (!hostBuilderProviders.Contains(chainedConfigSource.BuiltProvider))
                 {
                     // Something removed the _hostBuilder's TrackingChainedConfigurationSource pointing back to the ConfigurationManager.
-                    // This is likely a test using WebApplicationFactory. Replicate the effect by clearing the ConfingurationManager sources.
+                    // This is likely a test using WebApplicationFactory. Replicate the effect by clearing the ConfigurationManager sources.
                     ((IConfigurationBuilder)Configuration).Sources.Clear();
                 }
 

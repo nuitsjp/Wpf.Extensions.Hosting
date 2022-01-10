@@ -59,7 +59,6 @@ namespace Wpf.Extensions.Hosting
         {
             var previousApplicationName = _configuration[HostDefaults.ApplicationKey];
             // Use the real content root so we can compare paths
-            var previousContentRoot = _context.HostingEnvironment.ContentRootPath;
             var previousEnvironment = _configuration[HostDefaults.EnvironmentKey];
 
             // Run these immediately so that they are observable by the imperative code

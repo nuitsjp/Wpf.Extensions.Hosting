@@ -24,6 +24,8 @@ namespace Wpf.Extensions.Hosting
             Logger = host.Services.GetRequiredService<ILoggerFactory>().CreateLogger(Environment.ApplicationName);
         }
 
+        public event EventHandler<ApplicationLoadedEventArgs<TApplication, TWindow>>? Loaded;
+
         /// <summary>
         /// The application's configured services.
         /// </summary>
@@ -75,9 +77,9 @@ namespace Wpf.Extensions.Hosting
         /// <summary>
         /// Initializes a new instance of the <see cref="WpfApplicationBuilder{TApplication,TWindow}"/> class with preconfigured defaults.
         /// </summary>
-        /// <param name="options">The <see cref="WpfApplicationOptions{TApplication,TWindow}"/> to configure the <see cref="WpfApplicationBuilder{TApplication,TWindow}"/>.</param>
+        /// <param name="options">The <see cref="WpfApplicationOptions"/> to configure the <see cref="WpfApplicationBuilder{TApplication,TWindow}"/>.</param>
         /// <returns>The <see cref="WpfApplicationBuilder{TApplication,TWindow}"/>.</returns>
-        public static WpfApplicationBuilder<TApplication, TWindow> CreateBuilder(WpfApplicationOptions<TApplication, TWindow> options) =>
+        public static WpfApplicationBuilder<TApplication, TWindow> CreateBuilder(WpfApplicationOptions options) =>
             new(options);
 
         /// <summary>
@@ -88,8 +90,15 @@ namespace Wpf.Extensions.Hosting
         /// A <see cref="Task"/> that represents the startup of the <see cref="WpfApplication{TApplication,TWindow}"/>.
         /// Successful completion indicates the HTTP server is ready to accept new requests.
         /// </returns>
-        public Task StartAsync(CancellationToken cancellationToken = default) =>
-            _host.StartAsync(cancellationToken);
+        public Task StartAsync(CancellationToken cancellationToken = default)
+        {
+            var applicationContainer = Services.GetRequiredService<ApplicationContainer<TApplication, TWindow>>();
+            applicationContainer.Loaded += (sender, args) =>
+            {
+                Loaded?.Invoke(sender, args);
+            };
+            return _host.StartAsync(cancellationToken);
+        }
 
         /// <summary>
         /// Shuts down the application.

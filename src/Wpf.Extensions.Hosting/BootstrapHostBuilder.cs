@@ -49,7 +49,7 @@ namespace Wpf.Extensions.Hosting
                 throw new ArgumentNullException(nameof(configureDelegate));
             }
 
-            _remainingOperations.Add(hostBuilder => hostBuilder.ConfigureContainer<TContainerBuilder>(configureDelegate));
+            _remainingOperations.Add(hostBuilder => hostBuilder.ConfigureContainer(configureDelegate));
             return this;
         }
 
@@ -75,7 +75,7 @@ namespace Wpf.Extensions.Hosting
                 throw new ArgumentNullException(nameof(factory));
             }
 
-            _remainingOperations.Add(hostBuilder => hostBuilder.UseServiceProviderFactory<TContainerBuilder>(factory));
+            _remainingOperations.Add(hostBuilder => hostBuilder.UseServiceProviderFactory(factory));
             return this;
         }
 
@@ -88,7 +88,7 @@ namespace Wpf.Extensions.Hosting
                 throw new ArgumentNullException(nameof(factory));
             }
 
-            _remainingOperations.Add(hostBuilder => hostBuilder.UseServiceProviderFactory<TContainerBuilder>(factory));
+            _remainingOperations.Add(hostBuilder => hostBuilder.UseServiceProviderFactory(factory));
             return this;
         }
 
