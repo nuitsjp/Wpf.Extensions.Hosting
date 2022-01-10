@@ -19,7 +19,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Wpf.Extensions.Hosting" Version="0.0.3" />
+	  <ProjectReference Include="..\Wpf.Extensions.Hosting\Wpf.Extensions.Hosting.csproj" />
 	</ItemGroup>
 
 </Project>
