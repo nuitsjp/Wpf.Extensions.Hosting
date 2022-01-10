@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "DemoNet6Style": {
-      "commandName": "Project",
-      "commandLineArgs": "foo=bar --key value"
-    }
-  }
-}
