@@ -1,6 +1,4 @@
-﻿using System.Windows;
-
-namespace SampleApp
+﻿namespace SampleApp
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

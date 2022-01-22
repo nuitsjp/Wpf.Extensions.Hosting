@@ -9,14 +9,23 @@
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<Authors>Atsushi Nakamura</Authors>
 		<Company>Atsushi Nakamura</Company>
-		<Copyright>MIT</Copyright>
+		<Copyright>Copyright (c) .NET Foundation and Contributors</Copyright>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageProjectUrl>https://github.com/nuitsjp/Nuits.Extensions.Hosting.Wpf</PackageProjectUrl>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<Version>0.0.3</Version>
+		<Version>1.0.0</Version>
+		<PackageIcon>nuits.jp.png</PackageIcon>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<None Include="..\..\README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="nuits.jp.png">
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
 		</None>
@@ -29,6 +38,13 @@
 	<ItemGroup>
 		<!-- Only for .NET 6, default implicit Using. -->
 		<None Include="Wpf.Extensions.Hosting.props" Pack="true" PackagePath="build\net6.0\Wpf.Extensions.Hosting.props" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="nuits.jp.png">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
 	</ItemGroup>
 
 </Project>

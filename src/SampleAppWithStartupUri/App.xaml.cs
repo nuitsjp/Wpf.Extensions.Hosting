@@ -1,6 +1,4 @@
-﻿using System.Windows;
-
-namespace SampleAppWithStartupUri
+﻿namespace SampleAppWithStartupUri
 {
     /// <summary>
     /// Interaction logic for App.xaml

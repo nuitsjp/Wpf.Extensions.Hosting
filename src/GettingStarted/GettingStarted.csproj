@@ -1,15 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
-    <UseWPF>true</UseWPF>
-	<EnableDefaultApplicationDefinition>false</EnableDefaultApplicationDefinition>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net6.0-windows</TargetFramework>
+		<Nullable>enable</Nullable>
+		<UseWPF>true</UseWPF>
+		<EnableDefaultApplicationDefinition>false</EnableDefaultApplicationDefinition>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Wpf.Extensions.Hosting" Version="0.0.3" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Wpf.Extensions.Hosting" Version="0.0.3" />
+	</ItemGroup>
 
 </Project>
