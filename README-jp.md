@@ -1,12 +1,11 @@
 # Wpf.Extensions.Hosting
 
-[The Japanese document is here.](README-jp.md)
 
-Wpf.Extensions.Hosting is a library for running WPF applications on Generic Host.
+Wpf.Extensions.Hostingは、WPFアプリケーションをGeneric Host上で動作させるためのライブラリです。
 
-Many of the modern libraries in .NET are provided for Generic Hosts. By using this library, you can take advantage of the latest and greatest set of libraries provided for .   
+.NETの最新のライブラリの多くは、Generic Host向けに提供されています。このライブラリを使用することで、.NET向けに提供されている最新かつ最高のライブラリ群を利用できます。  
 
-This library allows you to write WPF on Generic Host in a simple and intuitive way, just like .NET6.
+.NET6ライクに、Generic Host上のWPFアプリケーションをシンプルかつ直感的に記述できます。
 
 ```csharp
 // Create a builder by specifying the application and main window.
@@ -37,7 +36,7 @@ app.RunAsync();
 
 ## Getting Started
 
-Create a WPF project and add the package from NuGet.
+WPFプロジェクトを作成し、NuGetからパッケージを追加します。
 
 NuGet :[Wpf.Extensions.Hosting](https://www.nuget.org/packages/Wpf.Extensions.Hosting)
 
@@ -45,7 +44,7 @@ NuGet :[Wpf.Extensions.Hosting](https://www.nuget.org/packages/Wpf.Extensions.Ho
 Install-Package Wpf.Extensions.Hosting
 ```
 
-Stop the automatic generation of the application entry point (Main method). Open the .csproj file and set EnableDefaultApplicationDefinition to false.
+アプリケーションのエントリポイント（Mainメソッド）の自動生成を停止します。.csprojファイルを開き、EnableDefaultApplicationDefinitionをfalseに設定します。
 
 ```xml
 <Project Sdk="Microsoft.NET.Sdk">
@@ -66,7 +65,7 @@ Stop the automatic generation of the application entry point (Main method). Open
 
 ```
 
-Delete the description of StartupUri from App.xaml.
+App.xamlからStartupUriの記述を削除します。
 
 ```xml
 <Application x:Class="GettingStarted.App"
@@ -79,7 +78,7 @@ Delete the description of StartupUri from App.xaml.
 </Application>
 ```
 
-Add a constructor to App.xaml.cs.
+App.xaml.csにコンストラクターを追加します。
 
 ```csharp
     public partial class App : Application
@@ -91,7 +90,7 @@ Add a constructor to App.xaml.cs.
     }
 ```
 
-Create a Program.cs file and run the WPF application on the Generic Host.
+Program.csファイルを作成し、Generic Host上でWPFアプリケーションを実行します。
 
 ```csharp
 using GettingStarted;
@@ -105,11 +104,9 @@ app.RunAsync();
 
 ```
 
-## Use Dependency Injection.
+## Dependency Injectionを使用する
 
-The following is an example of injecting a ViewModel into MainWindow.
-
-Create the MainWindowViewModel.
+MainWindowにViewModelを注入する例を示します。まずはMainWindowViewModelを作成します。
 ```csharp
 namespace GettingStarted;
 
@@ -119,7 +116,7 @@ public class MainWindowViewModel
 }
 ```
 
-Modify the constructor of MainWindow to receive ViewModel as an argument of the constructor and set it to DataContext.
+MainWindowのコンストラクターの引数にViewModelを受け取り、DataContextに設定するように修正します。
 
 ```csharp
 public MainWindow(MainWindowViewModel mainWindowViewModel)
@@ -129,15 +126,15 @@ public MainWindow(MainWindowViewModel mainWindowViewModel)
 }
 ```
 
-Register the ViewModel to the DI container in Program.cs.
+Program.csでViewModelをDIコンテナに登録します。
 
 ```csharp
 // Register the ViewModel to be injected into MainWindow to the DI container.
 builder.Services.AddTransient<MainWindowViewModel>();
 ```
 
-In this way, all the features of Generic Host are available.
+このように、Generic Hostのすべての機能を利用することができます。
 
 ## .NET Foundation
 
-This project is part of the [.NET Foundation](http://www.dotnetfoundation.org/projects).
+このプロジェクトは [.NET Foundation](http://www.dotnetfoundation.org/projects) の一部です。
