@@ -24,7 +24,10 @@
 	  <PackageReference Include="Serilog.Sinks.Console" Version="4.0.1" />
 	  <PackageReference Include="Serilog.Sinks.Debug" Version="2.0.0" />
 	  <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
-	  <PackageReference Include="Wpf.Extensions.Hosting" Version="0.0.3" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Wpf.Extensions.Hosting\Wpf.Extensions.Hosting.csproj" />
 	</ItemGroup>
 
 </Project>

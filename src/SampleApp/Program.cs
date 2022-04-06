@@ -1,5 +1,8 @@
-﻿using SampleApp;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using SampleApp;
 using Serilog;
+using Wpf.Extensions.Hosting;
 
 // Create a builder by specifying the application and main window.
 var builder = WpfApplication<App, MainWindow>.CreateBuilder(args);
@@ -23,5 +26,9 @@ builder.Host.UseSerilog((hostingContext, services, loggerConfiguration) => logge
         rollingInterval: RollingInterval.Day));
     
 var app = builder.Build();
+app.Startup += (sender, eventArgs) =>
+{
+
+};
 
 app.RunAsync();

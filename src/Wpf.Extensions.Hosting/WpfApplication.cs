@@ -25,6 +25,7 @@ namespace Wpf.Extensions.Hosting
             Logger = host.Services.GetRequiredService<ILoggerFactory>().CreateLogger(Environment.ApplicationName);
         }
 
+        public event EventHandler<ApplicationStartupEventArgs<TApplication, TWindow>>? Startup;
         public event EventHandler<ApplicationLoadedEventArgs<TApplication, TWindow>>? Loaded;
 
         /// <summary>
@@ -94,6 +95,14 @@ namespace Wpf.Extensions.Hosting
         public Task StartAsync(CancellationToken cancellationToken = default)
         {
             var application = Services.GetRequiredService<TApplication>();
+            application.Startup += (sender, args) =>
+            {
+                Startup?.Invoke(this, new ApplicationStartupEventArgs<TApplication, TWindow>(application, (TWindow)application.MainWindow!));
+            };
+            application.LoadCompleted += (sender, args) =>
+            {
+
+            };
             application.Activated += (sender, args) =>
             {
                 if (_isLoaded)
