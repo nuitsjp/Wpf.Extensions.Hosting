@@ -99,10 +99,6 @@ namespace Wpf.Extensions.Hosting
             {
                 Startup?.Invoke(this, new ApplicationStartupEventArgs<TApplication, TWindow>(application, (TWindow)application.MainWindow!));
             };
-            application.LoadCompleted += (sender, args) =>
-            {
-
-            };
             application.Activated += (sender, args) =>
             {
                 if (_isLoaded)
@@ -114,6 +110,11 @@ namespace Wpf.Extensions.Hosting
 
                 _isLoaded = true;
             };
+
+            // Test whether the HostedService can be retrieved from the container.
+            // This should not be tested here, as it would result in unnecessary instantiation.
+            // However, since "_host.StartAsync" will "succeed", we will leave it as is.
+            Services.GetRequiredService<WpfHostedService<TApplication, TWindow>>();
 
             return _host.StartAsync(cancellationToken);
         }
