@@ -31,4 +31,4 @@ app.Startup += (sender, eventArgs) =>
 
 };
 
-app.RunAsync();
+await app.RunAsync();

@@ -31,7 +31,7 @@ builder.Host.UseSerilog((hostingContext, services, loggerConfiguration) => logge
     
 var app = builder.Build();
 
-app.RunAsync();
+await app.RunAsync();
 ```
 
 ## Getting Started
@@ -100,8 +100,7 @@ var builder = WpfApplication<App, MainWindow>.CreateBuilder(args);
 
 // Build and run the application.
 var app = builder.Build();
-app.RunAsync();
-
+await app.RunAsync();
 ```
 
 ## Dependency Injectionを使用する

@@ -8,4 +8,4 @@ builder.Services.AddTransient<MainWindowViewModel>();
 
 // Build and run the application.
 var app = builder.Build();
-app.RunAsync();
+await app.RunAsync();
