@@ -12,16 +12,19 @@ internal class WpfHostedService<TApplication, TWindow> : IHostedService
 {
     private readonly TApplication _application;
     private readonly TWindow? _window;
+    private readonly IHostApplicationLifetime _hostApplicationLifetime;
 
-    public WpfHostedService(TApplication application, TWindow? window)
+    public WpfHostedService(TApplication application, TWindow? window, IHostApplicationLifetime hostApplicationLifetime)
     {
         _application = application;
         _window = window;
+        _hostApplicationLifetime = hostApplicationLifetime;
     }
 
     public Task StartAsync(CancellationToken cancellationToken)
     {
         _application.Run(_window);
+        _hostApplicationLifetime.StopApplication();
         return Task.CompletedTask;
     }
 
