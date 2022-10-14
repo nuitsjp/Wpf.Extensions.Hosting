@@ -13,7 +13,7 @@
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageProjectUrl>https://github.com/nuitsjp/Nuits.Extensions.Hosting.Wpf</PackageProjectUrl>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<Version>1.1.1</Version>
+		<Version>1.1.2</Version>
 		<PackageIcon>nuits.jp.png</PackageIcon>
 	</PropertyGroup>
 
