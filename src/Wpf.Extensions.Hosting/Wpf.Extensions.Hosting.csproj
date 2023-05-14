@@ -37,7 +37,7 @@
 
 	<ItemGroup>
 		<!-- Only for .NET 6, default implicit Using. -->
-		<None Include="Wpf.Extensions.Hosting.props" Pack="true" PackagePath="build\net6.0\Wpf.Extensions.Hosting.props" />
+		<None Include="Wpf.Extensions.Hosting.props" Pack="true" PackagePath="build" />
 	</ItemGroup>
 
 	<ItemGroup>
