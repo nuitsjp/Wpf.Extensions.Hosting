@@ -15,7 +15,7 @@ namespace Wpf.Extensions.Hosting
     public sealed class WpfApplicationBuilder<TApplication, TWindow> : IWpfApplicationBuilder<TApplication, TWindow> where TApplication : Application
         where TWindow : Window
     {
-        private readonly HostBuilder _hostBuilder = new();
+        public HostBuilder HostBuilder { get; } = new();
         private readonly WpfApplicationServiceCollection _services = new();
         private readonly List<KeyValuePair<string, string>> _hostConfigurationValues;
 
@@ -28,7 +28,7 @@ namespace Wpf.Extensions.Hosting
             // Run methods to configure both generic and web host defaults early to populate config from appsettings.json
             // environment variables (both DOTNET_ prefixed) and other possible default sources to prepopulate
             // the correct defaults.
-            var bootstrapHostBuilder = new BootstrapHostBuilder(Services, _hostBuilder.Properties);
+            var bootstrapHostBuilder = new BootstrapHostBuilder(Services, HostBuilder.Properties);
             bootstrapHostBuilder.ConfigureDefaults(args: options.Args);
             bootstrapHostBuilder.ConfigureHostConfiguration(options.ApplyHostConfiguration);
 
@@ -38,7 +38,7 @@ namespace Wpf.Extensions.Hosting
             _services.TrackHostedServices = true;
 
             // This is the application configuration
-            var (hostContext, hostConfiguration) = bootstrapHostBuilder.RunDefaultCallbacks(Configuration, _hostBuilder);
+            var (hostContext, hostConfiguration) = bootstrapHostBuilder.RunDefaultCallbacks(Configuration, HostBuilder);
 
             // Stop tracking here
             _services.TrackHostedServices = false;
@@ -104,7 +104,7 @@ namespace Wpf.Extensions.Hosting
 
             // Wire up the host configuration here. We don't try to preserve the configuration
             // source itself here since we don't support mutating the host values after creating the builder.
-            _hostBuilder.ConfigureHostConfiguration(builder =>
+            HostBuilder.ConfigureHostConfiguration(builder =>
             {
                 builder.AddInMemoryCollection(_hostConfigurationValues);
             });
@@ -113,7 +113,7 @@ namespace Wpf.Extensions.Hosting
 
             // Wire up the application configuration by copying the already built configuration providers over to final configuration builder.
             // We wrap the existing provider in a configuration source to avoid re-building the already added configuration sources.
-            _hostBuilder.ConfigureAppConfiguration(builder =>
+            HostBuilder.ConfigureAppConfiguration(builder =>
             {
                 builder.Add(chainedConfigSource);
 
@@ -125,7 +125,7 @@ namespace Wpf.Extensions.Hosting
 
             // This needs to go here to avoid adding the IHostedService that boots the server twice (the GenericWebHostService).
             // Copy the services that were added via WpfApplicationBuilder.Services into the final IServiceCollection
-            _hostBuilder.ConfigureServices((context, services) =>
+            HostBuilder.ConfigureServices((context, services) =>
             {
                 // We've only added services configured by the GenericWebHostBuilder and WebHost.ConfigureWebDefaults
                 // at this point. HostBuilder news up a new ServiceCollection in HostBuilder.Build() we haven't seen
@@ -176,9 +176,9 @@ namespace Wpf.Extensions.Hosting
             });
 
             // Run the other callbacks on the final host builder
-            Host.RunDeferredCallbacks(_hostBuilder);
+            Host.RunDeferredCallbacks(HostBuilder);
 
-            _builtApplication = new WpfApplication<TApplication, TWindow>(_hostBuilder.Build());
+            _builtApplication = new WpfApplication<TApplication, TWindow>(HostBuilder.Build());
 
             // Mark the service collection as read-only to prevent future modifications
             _services.IsReadOnly = true;

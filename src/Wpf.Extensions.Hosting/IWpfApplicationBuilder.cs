@@ -12,6 +12,11 @@ namespace Wpf.Extensions.Hosting;
 public interface IWpfApplicationBuilder<TApplication, TWindow> where TApplication : Application where TWindow : Window
 {
     /// <summary>
+    /// The <see cref="IHostBuilder"/> for the application.
+    /// </summary>
+    HostBuilder HostBuilder { get; }
+
+    /// <summary>
     /// Provides information about the web hosting environment an application is running.
     /// </summary>
     IHostEnvironment Environment { get; }
